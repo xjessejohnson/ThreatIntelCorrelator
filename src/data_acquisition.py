@@ -4,7 +4,7 @@ import json
 from . import database
 from . import data_processing
 from . import correlation
-from . import response_recommendation
+from . import response
 
 def get_virus_total_data(file_hash):
     """

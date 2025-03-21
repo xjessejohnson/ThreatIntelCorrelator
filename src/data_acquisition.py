@@ -1,11 +1,14 @@
+# src/data_acquisition.py
 import requests
 import json
+from . import database
+from . import data_processing
 
 def get_virus_total_data(file_hash):
     """
     Retrieves analysis data from VirusTotal for a given file hash.
     """
-    api_key = "2984b7ea69fef8b5c9770309dea86f804c66d2799d809d84e2ac3dad371e61a4" #replace with your api key.
+    api_key = "2984b7ea69fef8b5c9770309dea86f804c66d2799d809d84e2ac3dad371e61a4"  # Replace with your API key.
     url = f"https://www.virustotal.com/api/v3/files/{file_hash}"
     headers = {"x-apikey": api_key}
 
@@ -27,15 +30,13 @@ if __name__ == "__main__":
 
     if virus_total_data:
         print(json.dumps(virus_total_data, indent=4))
-        file_name = "example.exe"
-        file_size = 1024
-        database.store_file_data(file_hash, file_name, file_size)
-        database.store_virus_total_results(file_hash, virus_total_data)
         file_metadata = data_processing.extract_file_metadata(virus_total_data)
         scan_results = data_processing.extract_scan_results(virus_total_data)
         iocs = data_processing.extract_iocs(virus_total_data)
 
         database.store_file_data(file_hash, file_metadata.get('file_name', "unknown"), file_metadata.get('file_size', 0))
         database.store_virus_total_results(file_hash, scan_results)
+        # Simulate storing IOCs
+        print("Simulating storing IOCs:", iocs)
     else:
         print("Failed to retrieve VirusTotal data.")

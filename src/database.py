@@ -12,4 +12,10 @@ def store_virus_total_results(file_hash, vt_data):
     print(f"Storing VirusTotal results for: {file_hash}")
     # In the future, this will contain database insertion logic.
 
+def store_iocs(file_hash, iocs):
+    """Stores IOCs in the database."""
+    # Placeholder for database interaction
+    print(f"Storing IOCs for: {file_hash}")
+    # In the future, this will contain database insertion logic.
+
 # Add more database interaction functions as needed.

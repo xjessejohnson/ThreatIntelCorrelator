@@ -26,6 +26,10 @@ if __name__ == "__main__":
     virus_total_data = get_virus_total_data(file_hash)
 
     if virus_total_data:
-        print(json.dumps(virus_total_data, indent=4)) #prints the json in an easy to read format.
+        print(json.dumps(virus_total_data, indent=4))
+        file_name = "example.exe"
+        file_size = 1024
+        database.store_file_data(file_hash, file_name, file_size)
+        database.store_virus_total_results(file_hash, virus_total_data)
     else:
         print("Failed to retrieve VirusTotal data.")

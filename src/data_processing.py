@@ -12,10 +12,10 @@ def extract_file_metadata(vt_data):
 
 def extract_scan_results(vt_data):
     """Extracts scan results from VirusTotal data."""
-    # Placeholder for scan results extraction logic
-    print("Extracting scan results...")
-    # In the future, this will contain data extraction logic.
-    return {} #place holder return.
+    scan_results = {}
+    if vt_data and "data" in vt_data and "attributes" in vt_data["data"] and "results" in vt_data["data"]["attributes"]["last_analysis_results"]:
+        scan_results = vt_data["data"]["attributes"]["last_analysis_results"]
+    return scan_results
 
 def extract_iocs(vt_data):
     """Extracts IOCs from VirusTotal data."""

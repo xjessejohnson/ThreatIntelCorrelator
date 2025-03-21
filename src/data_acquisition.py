@@ -22,7 +22,7 @@ def get_virus_total_data(file_hash):
         return None
 
 if __name__ == "__main__":
-    file_hash = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" #example hash
+    file_hash = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"  # example hash
     virus_total_data = get_virus_total_data(file_hash)
 
     if virus_total_data:
@@ -31,5 +31,11 @@ if __name__ == "__main__":
         file_size = 1024
         database.store_file_data(file_hash, file_name, file_size)
         database.store_virus_total_results(file_hash, virus_total_data)
+        file_metadata = data_processing.extract_file_metadata(virus_total_data)
+        scan_results = data_processing.extract_scan_results(virus_total_data)
+        iocs = data_processing.extract_iocs(virus_total_data)
+
+        database.store_file_data(file_hash, file_metadata.get('file_name', "unknown"), file_metadata.get('file_size', 0))
+        database.store_virus_total_results(file_hash, scan_results)
     else:
         print("Failed to retrieve VirusTotal data.")

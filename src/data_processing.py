@@ -2,10 +2,13 @@
 
 def extract_file_metadata(vt_data):
     """Extracts file metadata from VirusTotal data."""
-    # Placeholder for metadata extraction logic
-    print("Extracting file metadata...")
-    # In the future, this will contain data extraction logic.
-    return {} #place holder return.
+    metadata = {}
+    if vt_data and "data" in vt_data and "attributes" in vt_data["data"]:
+        attributes = vt_data["data"]["attributes"]
+        metadata["file_name"] = attributes.get("names", ["unknown"])[0] #gets the first name in the list, or "unknown" if there are no names.
+        metadata["file_size"] = attributes.get("size", 0)
+        # Add other metadata fields as needed
+    return metadata
 
 def extract_scan_results(vt_data):
     """Extracts scan results from VirusTotal data."""

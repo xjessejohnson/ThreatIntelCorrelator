@@ -4,6 +4,7 @@ import json
 from . import database
 from . import data_processing
 from . import correlation
+from . import response_recommendation
 
 def get_virus_total_data(file_hash):
     """
@@ -49,3 +50,6 @@ if __name__ == "__main__":
 
     correlated_iocs = correlation.correlate_iocs(all_iocs)
     print("Correlated IOCs:", correlated_iocs)
+
+    recommendations = response_recommendation.generate_response_recommendations(correlated_iocs)
+    print("Response Recommendations:", recommendations)

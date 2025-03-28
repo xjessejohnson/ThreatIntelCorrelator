@@ -41,15 +41,18 @@ if __name__ == "__main__":
             file_metadata = data_processing.extract_file_metadata(virus_total_data)
             scan_results = data_processing.extract_scan_results(virus_total_data)
             iocs = data_processing.extract_iocs(virus_total_data)
+            severity = data_processing.extract_severity(virus_total_data)
 
             database.store_file_data(file_hash, file_metadata.get('file_name', "unknown"), file_metadata.get('file_size', 0))
             database.store_virus_total_results(file_hash, scan_results)
             all_iocs.append(iocs)
+
+            print(f"Severity Score: {severity}")
         else:
             print(f"Failed to retrieve VirusTotal data for {file_hash}.")
 
     correlated_iocs = correlation.correlate_iocs(all_iocs)
     print("Correlated IOCs:", correlated_iocs)
 
-    recommendations = response_recommendation.generate_response_recommendations(correlated_iocs)
+    recommendations = response.generate_response_recommendations(correlated_iocs)
     print("Response Recommendations:", recommendations)

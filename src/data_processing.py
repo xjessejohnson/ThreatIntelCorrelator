@@ -1,5 +1,6 @@
 # src/data_processing.py
 import re
+from . import severity
 
 def extract_file_metadata(vt_data):
     """Extracts file metadata from VirusTotal data."""
@@ -32,5 +33,11 @@ def extract_iocs(vt_data):
                 iocs.extend(ips)
 
     return iocs
+
+def extract_severity(vt_data):
+    """Extracts and calculates severity from VirusTotal data."""
+    scan_results = extract_scan_results(vt_data)
+    severity_score = severity.calculate_severity(scan_results)
+    return severity_score
 
 # Add more data processing functions as needed.

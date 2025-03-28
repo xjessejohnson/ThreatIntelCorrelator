@@ -18,4 +18,8 @@ def store_iocs(file_hash, iocs):
     print(f"Storing IOCs for: {file_hash}")
     # In the future, this will contain database insertion logic.
 
+def store_severity(file_hash, severity):
+    """Stores severity in the database."""
+    print(f"Storing Severity for: {file_hash}, Severity: {severity}")
+
 # Add more database interaction functions as needed.

@@ -10,14 +10,16 @@ from . import response
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def get_virus_total_data(file_hash):
-    """Retrieves analysis data from VirusTotal for a given file hash with error handling."""
+    """
+    Retrieves analysis data from VirusTotal for a given file hash.
+    """
     api_key = "2984b7ea69fef8b5c9770309dea86f804c66d2799d809d84e2ac3dad371e61a4"  # Replace with your API key.
     url = f"https://www.virustotal.com/api/v3/files/{file_hash}"
     headers = {"x-apikey": api_key}
 
     try:
         response = requests.get(url, headers=headers)
-        response.raise_for_status()
+        response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
         data = response.json()
         return data
     except requests.exceptions.RequestException as e:
@@ -25,6 +27,22 @@ def get_virus_total_data(file_hash):
         return None
     except json.JSONDecodeError as e:
         logging.error(f"Error decoding JSON response for {file_hash}: {e}")
+        return None
+
+def get_shodan_data(ip_address):
+    """Retrieves data from Shodan for a given IP address."""
+    api_key = "GHRvslnylIGA8jdpEtGsklaXsHesxzCd"  # Replace with your Shodan API key.
+    url = f"https://api.shodan.io/shodan/host/{ip_address}?key={api_key}"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        return data
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Error fetching Shodan data for {ip_address}: {e}")
+        return None
+    except json.JSONDecodeError as e:
+        logging.error(f"Error decoding Shodan JSON response for {ip_address}: {e}")
         return None
 
 if __name__ == "__main__":
